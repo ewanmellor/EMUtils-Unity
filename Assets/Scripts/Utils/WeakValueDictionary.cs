@@ -212,7 +212,7 @@ namespace EMUtils.Utils
         /// <returns>
         /// true if any objects were removed.
         /// </returns>
-        internal bool Cleanup()
+        public bool Cleanup()
         {
             var oldCount = dict.Count;
             dict = dict.Where(kv => {
