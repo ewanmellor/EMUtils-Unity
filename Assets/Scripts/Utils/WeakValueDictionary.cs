@@ -31,14 +31,14 @@ namespace EMUtils.Utils
                 var result = new List<TValue>();
                 foreach (var r in dict.Values)
                 {
-                    var val = r.Target;
-                    if (val == null)
+                    TValue val;
+                    if (r.TryGetTarget(out val))
                     {
-                        nullCount++;
+                        result.Add(val);
                     }
                     else
                     {
-                        result.Add(val);
+                        nullCount++;
                     }
                 }
                 if (nullCount > dict.Count / 4)
@@ -54,11 +54,7 @@ namespace EMUtils.Utils
             MaybeCleanup();
 
             WeakReference<TValue> wr;
-            if (!dict.TryGetValue(key, out wr))
-            {
-                return false;
-            }
-            return wr.IsAlive;
+            return dict.TryGetValue(key, out wr);
         }
 
         public void Add(TKey key, TValue value)
@@ -80,15 +76,16 @@ namespace EMUtils.Utils
             WeakReference<TValue> wr;
             if (dict.TryGetValue(key, out wr))
             {
-                var target = wr.Target;
-                value = target;
-                return target != null;
+                TValue target;
+                if (wr.TryGetTarget(out target))
+                {
+                    value = target;
+                    return true;
+                }
             }
-            else
-            {
-                value = null;
-                return false;
-            }
+
+            value = null;
+            return false;
         }
 
         public TValue this[TKey key]
@@ -172,14 +169,14 @@ namespace EMUtils.Utils
 
             foreach (var kv in dict)
             {
-                var target = kv.Value.Target;
-                if (target == null)
+                TValue target;
+                if (kv.Value.TryGetTarget(out target))
                 {
-                    nullCount++;
+                    yield return new KeyValuePair<TKey, TValue>(kv.Key, target);
                 }
                 else
                 {
-                    yield return new KeyValuePair<TKey, TValue>(kv.Key, target);
+                    nullCount++;
                 }
             }
 
@@ -218,30 +215,13 @@ namespace EMUtils.Utils
         internal bool Cleanup()
         {
             var oldCount = dict.Count;
-            dict = dict.Where(kv => kv.Value.IsAlive).ToDictionary(kv => kv.Key, kv => kv.Value);
+            dict = dict.Where(kv => {
+                TValue v;
+                return kv.Value.TryGetTarget(out v);
+            }).ToDictionary(kv => kv.Key, kv => kv.Value);
             return (oldCount > dict.Count);
         }
 
         #endregion
-    }
-
-    internal sealed class WeakReference<T> : System.WeakReference
-    {
-        internal WeakReference(T target)
-            : base(target)
-        {
-        }
-
-        internal new T Target
-        {
-            get
-            {
-                return (T)base.Target;
-            }
-            set
-            {
-                base.Target = value;
-            }
-        }
     }
 }
