@@ -5,6 +5,21 @@ namespace EMUtils.UnityUtils
 {
     public static class GameObjectExtension
     {
+        public static GameObject NthChildWithTag(this GameObject obj, int n, string tag) {
+            int idx = 0;
+            foreach (Transform child in obj.transform) {
+                if (child.CompareTag(tag)) {
+                    if (idx == n) {
+                        return child.gameObject;
+                    }
+                    else {
+                        idx += 1;
+                    }
+                }
+            }
+            return null;
+        }
+
         public static void SetLayerIncChildren(this GameObject obj, int layer)
         {
             obj.layer = layer;
