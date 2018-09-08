@@ -5,14 +5,19 @@ namespace EMUtils.UnityUtils
 {
     public static class GameObjectExtension
     {
-        public static GameObject NthChildWithTag(this GameObject obj, int n, string tag) {
+        public static GameObject NthChildWithTag(this GameObject obj, int n, string tag)
+        {
             int idx = 0;
-            foreach (Transform child in obj.transform) {
-                if (child.CompareTag(tag)) {
-                    if (idx == n) {
+            foreach (Transform child in obj.transform)
+            {
+                if (child.CompareTag(tag))
+                {
+                    if (idx == n)
+                    {
                         return child.gameObject;
                     }
-                    else {
+                    else
+                    {
                         idx += 1;
                     }
                 }
