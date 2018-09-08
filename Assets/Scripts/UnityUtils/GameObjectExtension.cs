@@ -5,6 +5,11 @@ namespace EMUtils.UnityUtils
 {
     public static class GameObjectExtension
     {
+        public static T GetOrAddComponent<T>(this GameObject obj) where T : Component
+        {
+            return obj.GetComponent<T>() ?? obj.AddComponent<T>();
+        }
+
         public static GameObject NthChildWithTag(this GameObject obj, int n, string tag)
         {
             int idx = 0;
