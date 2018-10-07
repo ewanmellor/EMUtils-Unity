@@ -1,0 +1,14 @@
+{
+    "name": "EMUtils-Unity-Tests",
+    "references": [
+        "EMUtils-Unity"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
