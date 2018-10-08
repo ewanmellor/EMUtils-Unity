@@ -7,9 +7,21 @@ namespace EMUtils.Utils
 {
     public static class IEnumerableExtension
     {
+        public static IEnumerable<T> AsNotNull<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable ?? Enumerable.Empty<T>();
+        }
+
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
         {
             return enumerable == null || !enumerable.Any();
+        }
+
+        /// <returns>The result of ToList() if that is non-empty, or null
+        /// otherwise.</returns>
+        public static List<T> ToListOrNullIfEmpty<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.ToList().NullIfEmpty();
         }
 
         public static IEnumerable<TResult> SelectNotNull<TSource, TResult>(
