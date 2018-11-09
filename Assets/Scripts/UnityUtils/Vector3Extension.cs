@@ -14,5 +14,11 @@ namespace EMUtils.UnityUtils
         {
             return new Vector3(v.x.Quantized(q), v.y.Quantized(q), v.z.Quantized(q));
         }
+
+
+        public static float SquaredDistance(Vector3 a, Vector3 b)
+        {
+            return (b - a).sqrMagnitude;
+        }
     }
 }
