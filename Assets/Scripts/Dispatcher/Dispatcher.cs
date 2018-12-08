@@ -12,6 +12,10 @@ namespace EMUtils.Dispatcher
     [DisallowMultipleComponent]
     public class Dispatcher : MonoBehaviour
     {
+        public sealed class QueueIsClosedException : Exception
+        {
+        }
+
         public static Dispatcher Instance;
 
         /// <summary>
@@ -24,6 +28,11 @@ namespace EMUtils.Dispatcher
         readonly Queue<Action> queue = new Queue<Action>();
 
         volatile bool queueIsDirty = false;
+
+        /// <summary>
+        /// May only be accessed under lock(queue).
+        /// </summary>
+        bool queueIsClosed = false;
 
 
         void Awake()
@@ -50,23 +59,29 @@ namespace EMUtils.Dispatcher
 
             // Force the queue to be drained so that we don't have
             // any threads blocked in Invoke.
-            FlushQueue_();
+            CloseQueue_();
         }
 
 
         public static void InvokeAsync(Action action)
         {
-            Instance.Enqueue(() =>
+            try
             {
-                try
+                Instance.Enqueue(() =>
                 {
-                    action();
-                }
-                catch (Exception err)
-                {
-                    Debug.LogErrorFormat("Ignoring error in InvokeAsync: {0}", err);
-                }
-            });
+                    try
+                    {
+                        action();
+                    }
+                    catch (Exception err)
+                    {
+                        Debug.LogErrorFormat("Ignoring error in InvokeAsync: {0}", err);
+                    }
+                });
+            }
+            catch (QueueIsClosedException)
+            {
+            }
         }
 
 
@@ -131,9 +146,28 @@ namespace EMUtils.Dispatcher
         {
             lock (queue)
             {
+                if (queueIsClosed)
+                {
+                    throw new QueueIsClosedException();
+                }
                 queue.Enqueue(action);
                 queueIsDirty = true;
             }
+        }
+
+
+        public static void CloseQueue()
+        {
+            Instance?.CloseQueue_();
+        }
+
+        void CloseQueue_()
+        {
+            lock (queue)
+            {
+                queueIsClosed = true;
+            }
+            FlushQueue_();
         }
 
 
