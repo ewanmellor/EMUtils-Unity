@@ -7,17 +7,15 @@ namespace EMUtils.Utils
 {
     public static class DictionaryExtension
     {
-        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue def = default(TValue))
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue def = default)
         {
-            TValue result;
-            return dict.TryGetValue(key, out result) ? result : def;
+            return dict.TryGetValue(key, out TValue result) ? result : def;
         }
 
 
         public static TValue GetValueOrPut<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, Func<TValue> generator)
         {
-            TValue result;
-            if (dict.TryGetValue(key, out result))
+            if (dict.TryGetValue(key, out TValue result))
             {
                 return result;
             }
@@ -77,8 +75,7 @@ namespace EMUtils.Utils
             }
             foreach (var kv in dict)
             {
-                TValue otherV;
-                if (!other.TryGetValue(kv.Key, out otherV))
+                if (!other.TryGetValue(kv.Key, out TValue otherV))
                 {
                     return false;
                 }
