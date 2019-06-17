@@ -113,6 +113,7 @@ namespace EMUtils.Dispatcher
                 }
                 catch (Exception err)
                 {
+//                    Debug.LogException(err);
                     exn = err;
                 }
                 finally
