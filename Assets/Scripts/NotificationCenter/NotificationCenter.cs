@@ -50,8 +50,8 @@ namespace EMUtils.NotificationCenter
         {
             EMAssert.OnMainThread();
 
-            var obs = observers[name];
-            foreach (var ob in obs)
+            var obs = observers.GetValueOrDefault(name);
+            foreach (var ob in obs.AsNotNull())
             {
                 try
                 {
