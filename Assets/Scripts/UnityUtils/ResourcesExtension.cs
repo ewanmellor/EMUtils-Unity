@@ -13,12 +13,12 @@ namespace EMUtils.UnityUtils
         #if UNITY_EDITOR
         public static IEnumerable<T> FindNonPrefabsOfType<T>() where T : Component
         {
-            var objs = UnityEngine.Resources.FindObjectsOfTypeAll<T>();
+            var objs = Resources.FindObjectsOfTypeAll<T>();
             foreach (var obj in objs)
             {
                 var go = obj.gameObject;
-                var pt = PrefabUtility.GetPrefabType(go);
-                if (pt != PrefabType.Prefab)
+                var pt = PrefabUtility.GetPrefabAssetType(go);
+                if (pt == PrefabAssetType.NotAPrefab)
                 {
                     yield return obj;
                 }
