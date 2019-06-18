@@ -31,8 +31,7 @@ namespace EMUtils.Utils
                 var result = new List<TValue>();
                 foreach (var r in dict.Values)
                 {
-                    TValue val;
-                    if (r.TryGetTarget(out val))
+                    if (r.TryGetTarget(out TValue val))
                     {
                         result.Add(val);
                     }
@@ -52,9 +51,7 @@ namespace EMUtils.Utils
         public bool ContainsKey(TKey key)
         {
             MaybeCleanup();
-
-            WeakReference<TValue> wr;
-            return dict.TryGetValue(key, out wr);
+            return dict.TryGetValue(key, out _);
         }
 
         public void Add(TKey key, TValue value)
@@ -73,11 +70,9 @@ namespace EMUtils.Utils
         {
             MaybeCleanup();
 
-            WeakReference<TValue> wr;
-            if (dict.TryGetValue(key, out wr))
+            if (dict.TryGetValue(key, out WeakReference<TValue> wr))
             {
-                TValue target;
-                if (wr.TryGetTarget(out target))
+                if (wr.TryGetTarget(out TValue target))
                 {
                     value = target;
                     return true;
@@ -169,8 +164,7 @@ namespace EMUtils.Utils
 
             foreach (var kv in dict)
             {
-                TValue target;
-                if (kv.Value.TryGetTarget(out target))
+                if (kv.Value.TryGetTarget(out TValue target))
                 {
                     yield return new KeyValuePair<TKey, TValue>(kv.Key, target);
                 }
@@ -216,8 +210,7 @@ namespace EMUtils.Utils
         {
             var oldCount = dict.Count;
             dict = dict.Where(kv => {
-                TValue v;
-                return kv.Value.TryGetTarget(out v);
+                return kv.Value.TryGetTarget(out TValue v);
             }).ToDictionary(kv => kv.Key, kv => kv.Value);
             return (oldCount > dict.Count);
         }

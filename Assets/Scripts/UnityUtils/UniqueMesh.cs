@@ -35,8 +35,10 @@ namespace EMUtils.UnityUtils
                 var ownerId = gameObject.GetInstanceID();
                 if (MeshFilter.sharedMesh == null || MeshOwnerID != ownerId)
                 {
-                    var m = new Mesh();
-                    m.name = "Mesh@" + ownerId;
+                    var m = new Mesh
+                    {
+                        name = "Mesh@" + ownerId
+                    };
 
                     MeshOwnerID = ownerId;
                     MeshFilter.sharedMesh = m;

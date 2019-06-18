@@ -10,7 +10,7 @@ namespace EMUtils.Utils
         {
             if (queue.Count == 0)
             {
-                result = default(T);
+                result = default;
                 return false;
             }
             else

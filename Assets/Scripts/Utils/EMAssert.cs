@@ -9,7 +9,7 @@ namespace EMUtils.Utils
 {
     public static class EMAssert
     {
-        private static int mainThreadId = 0;
+        private static int mainThreadId;
 
         public static void OnMainThread()
         {

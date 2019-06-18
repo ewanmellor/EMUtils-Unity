@@ -27,12 +27,12 @@ namespace EMUtils.Dispatcher
         /// </summary>
         readonly Queue<Action> queue = new Queue<Action>();
 
-        volatile bool queueIsDirty = false;
+        volatile bool queueIsDirty;
 
         /// <summary>
         /// May only be accessed under lock(queue).
         /// </summary>
-        bool queueIsClosed = false;
+        bool queueIsClosed;
 
 
         void Awake()
