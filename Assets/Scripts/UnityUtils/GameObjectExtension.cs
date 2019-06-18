@@ -21,10 +21,7 @@ namespace EMUtils.UnityUtils
                     {
                         return child.gameObject;
                     }
-                    else
-                    {
-                        idx += 1;
-                    }
+                    idx += 1;
                 }
             }
             return null;

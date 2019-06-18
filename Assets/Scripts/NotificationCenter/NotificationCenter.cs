@@ -9,7 +9,7 @@ using EMUtils.Utils;
 
 namespace EMUtils.NotificationCenter
 {
-    public class NotificationCenter
+    public sealed class NotificationCenter
     {
         public delegate void NotificationDelegate(IDictionary senderInfo);
 

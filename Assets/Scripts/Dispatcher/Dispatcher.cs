@@ -10,7 +10,7 @@ using EMUtils.Utils;
 namespace EMUtils.Dispatcher
 {
     [DisallowMultipleComponent]
-    public class Dispatcher : MonoBehaviour
+    public sealed class Dispatcher : MonoBehaviour
     {
         public sealed class QueueIsClosedException : Exception
         {
