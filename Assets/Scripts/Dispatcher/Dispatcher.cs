@@ -99,6 +99,27 @@ namespace EMUtils.Dispatcher
             return (T)Instance.Invoke_(() => action());
         }
 
+        public static void Invoke<T>(Action<T> action, T arg)
+        {
+            Invoke(() => action(arg));
+        }
+
+        public static void Invoke<T1, T2>(Action<T1, T2> action, T1 arg1, T2 arg2)
+        {
+            Invoke(() => action(arg1, arg2));
+        }
+
+        public static TResult Invoke<T, TResult>(Func<T, TResult> action, T arg)
+        {
+            return Invoke(() => action(arg));
+        }
+
+        public static TResult Invoke<T1, T2, TResult>(Func<T1, T2, TResult> action, T1 arg1, T2 arg2)
+        {
+            return Invoke(() => action(arg1, arg2));
+        }
+
+
         object Invoke_(Func<object> action)
         {
             object result = null;
