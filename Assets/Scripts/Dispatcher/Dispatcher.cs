@@ -109,6 +109,11 @@ namespace EMUtils.Dispatcher
             Invoke(() => action(arg1, arg2));
         }
 
+        public static void Invoke<T1, T2, T3>(Action<T1, T2, T3> action, T1 arg1, T2 arg2, T3 arg3)
+        {
+            Invoke(() => action(arg1, arg2, arg3));
+        }
+
         public static TResult Invoke<T, TResult>(Func<T, TResult> action, T arg)
         {
             return Invoke(() => action(arg));
@@ -117,6 +122,11 @@ namespace EMUtils.Dispatcher
         public static TResult Invoke<T1, T2, TResult>(Func<T1, T2, TResult> action, T1 arg1, T2 arg2)
         {
             return Invoke(() => action(arg1, arg2));
+        }
+
+        public static TResult Invoke<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> action, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return Invoke(() => action(arg1, arg2, arg3));
         }
 
 
