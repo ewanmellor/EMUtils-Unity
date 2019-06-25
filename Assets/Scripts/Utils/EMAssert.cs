@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading;
 using UnityEngine.Assertions;
 
@@ -9,16 +10,22 @@ namespace EMUtils.Utils
 {
     public static class EMAssert
     {
+#if DEBUG
         private static int mainThreadId;
+#endif
 
+        [Conditional("DEBUG")]
         public static void OnMainThread()
         {
+#if DEBUG
             if (mainThreadId == 0)
             {
                 mainThreadId = Thread.CurrentThread.ManagedThreadId;
             }
             Assert.AreEqual(Thread.CurrentThread.ManagedThreadId, mainThreadId);
+#endif
         }
+
 
         public static void IsNullOrEmpty<T>(IEnumerable<T> e)
         {
