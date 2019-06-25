@@ -67,5 +67,21 @@ namespace EMUtils.NotificationCenter
                 }
             }
         }
+
+
+        public void NotifyNoCatch(string name, IDictionary senderInfo = null)
+        {
+            EMAssert.OnMainThread();
+
+            var obs = observers.GetValueOrDefault(name);
+            if (obs == null)
+            {
+                return;
+            }
+            foreach (var ob in obs)
+            {
+                ob(senderInfo);
+            }
+        }
     }
 }
