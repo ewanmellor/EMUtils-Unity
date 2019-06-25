@@ -39,12 +39,12 @@ namespace EMUtils.Utils
 
         public static void AreReferenceEquals(object a, object b)
         {
-            if (Object.ReferenceEquals(a, b))
+            if (object.ReferenceEquals(a, b))
             {
                 return;
             }
             Assert.IsTrue(
-                Object.ReferenceEquals(a, b),
+                object.ReferenceEquals(a, b),
                 string.Format("Object.ReferenceEquals(a, b) not true: a == {0}, b == {1}.", a, b));
         }
 
