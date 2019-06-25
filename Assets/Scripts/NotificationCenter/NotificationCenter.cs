@@ -51,7 +51,11 @@ namespace EMUtils.NotificationCenter
             EMAssert.OnMainThread();
 
             var obs = observers.GetValueOrDefault(name);
-            foreach (var ob in obs.AsNotNull())
+            if (obs == null)
+            {
+                return;
+            }
+            foreach (var ob in obs)
             {
                 try
                 {
