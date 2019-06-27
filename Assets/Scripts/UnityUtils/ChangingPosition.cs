@@ -21,6 +21,11 @@ namespace EMUtils.UnityUtils
             FractionPerSec = fractionPerSec;
         }
 
+        public ChangingPosition(Vector3 prevPosition, Vector3 nextPosition, float fractionPerSec) :
+            this(prevPosition, Quaternion.identity, nextPosition, Quaternion.identity, fractionPerSec)
+        {
+        }
+
         public void Reset(Vector3 prevPosition, Quaternion prevRotation, Vector3 nextPosition, Quaternion nextRotation, float fractionPerSec)
         {
             PrevPosition = prevPosition;
@@ -31,17 +36,30 @@ namespace EMUtils.UnityUtils
             FractionPerSec = fractionPerSec;
         }
 
+        public void Reset(Vector3 prevPosition, Vector3 nextPosition, float fractionPerSec)
+        {
+            PrevPosition = prevPosition;
+            PrevRotation = Quaternion.identity;
+            NextPosition = nextPosition;
+            NextRotation = Quaternion.identity;
+            Fraction = 0;
+            FractionPerSec = fractionPerSec;
+        }
+
+        public Vector3 CurrentPosition => Vector3.Lerp(PrevPosition, NextPosition, Fraction);
+
+        public Quaternion CurrentRotation => Quaternion.Slerp(PrevRotation, NextRotation, Fraction);
+
         public (Vector3, Quaternion, bool) Lerp(float deltaTime)
         {
             Fraction += FractionPerSec * deltaTime;
-            if (Fraction >= 1.0)
+            if (Fraction >= 1.0f)
             {
+                Fraction = 1.0f;
                 return (NextPosition, NextRotation, true);
             }
 
-            var nextPos = Vector3.Lerp(PrevPosition, NextPosition, Fraction);
-            var nextRot = Quaternion.Slerp(PrevRotation, NextRotation, Fraction);
-            return (nextPos, nextRot, false);
+            return (CurrentPosition, CurrentRotation, false);
         }
     }
 }
