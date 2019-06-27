@@ -38,12 +38,10 @@ namespace EMUtils.UnityUtils
             {
                 return (NextPosition, NextRotation, true);
             }
-            else
-            {
-                var nextPos = Vector3.Lerp(PrevPosition, NextPosition, Fraction);
-                var nextRot = Quaternion.Slerp(PrevRotation, NextRotation, Fraction);
-                return (nextPos, nextRot, false);
-            }
+
+            var nextPos = Vector3.Lerp(PrevPosition, NextPosition, Fraction);
+            var nextRot = Quaternion.Slerp(PrevRotation, NextRotation, Fraction);
+            return (nextPos, nextRot, false);
         }
     }
 }
