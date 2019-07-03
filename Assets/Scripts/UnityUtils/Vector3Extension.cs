@@ -18,7 +18,10 @@ namespace EMUtils.UnityUtils
 
         public static float SquaredDistance(Vector3 a, Vector3 b)
         {
-            return (b - a).sqrMagnitude;
+            float dx = b.x - a.x;
+            float dy = b.y - a.y;
+            float dz = b.z - a.z;
+            return dx * dx + dy * dy + dz * dz;
         }
     }
 }
