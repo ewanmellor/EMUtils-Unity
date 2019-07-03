@@ -16,11 +16,32 @@ namespace EMUtils.UnityUtils
         }
 
 
+        /// <returns>(b - a).sqrMagnitude, except without allocating the temporary.</returns>
         public static float SquaredDistance(Vector3 a, Vector3 b)
         {
             float dx = b.x - a.x;
             float dy = b.y - a.y;
             float dz = b.z - a.z;
+            return dx * dx + dy * dy + dz * dz;
+        }
+
+
+        /// <returns>Vector3.Cross(a, b).sqrMagnitude, except without allocating the temporary.</returns>
+        public static float CrossSquaredMagnitude(Vector3 a, Vector3 b)
+        {
+            float cx = a.y * b.z - a.z * b.y;
+            float cy = a.z * b.x - a.x * b.z;
+            float cz = a.x * b.y - a.y * b.x;
+            return cx * cx + cy * cy + cz * cz;
+        }
+
+
+        /// <returns>(a + b).sqrMagnitude, except without allocating the temporary.</returns>
+        public static float SumSquaredMagnitude(Vector3 a, Vector3 b)
+        {
+            float dx = b.x + a.x;
+            float dy = b.y + a.y;
+            float dz = b.z + a.z;
             return dx * dx + dy * dy + dz * dz;
         }
     }
