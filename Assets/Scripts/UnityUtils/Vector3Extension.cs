@@ -41,6 +41,28 @@ namespace EMUtils.UnityUtils
         }
 
 
+        /// <returns>(b - a).normalized, except without allocating the temporary.</returns>
+        public static Vector3 DifferenceNormalized(Vector3 a, Vector3 b)
+        {
+            float dx = b.x - a.x;
+            float dy = b.y - a.y;
+            float dz = b.z - a.z;
+
+            float sqrMag = dx * dx + dy * dy + dz * dz;
+            if (sqrMag <= kEpsilonSquared)
+            {
+                return Vector3.zero;
+            }
+
+            float mag = Mathf.Sqrt(sqrMag);
+            return new Vector3(
+                dx / mag,
+                dy / mag,
+                dz / mag
+                );
+        }
+
+
         /// <returns>(b - a).sqrMagnitude, except without allocating the temporary.</returns>
         public static float SquaredDistance(Vector3 a, Vector3 b)
         {
