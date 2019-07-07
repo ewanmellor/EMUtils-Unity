@@ -6,6 +6,7 @@ namespace EMUtils.UnityUtils
     public static class Color32Extension
     {
         public static readonly Color32 Transparent = new Color32(0, 0, 0, 0);
+        public static readonly Color32 White = new Color32(255, 255, 255, 255);
 
 
         public static Color32 AlphaOverlay(this Color32 back, Color32 front)
