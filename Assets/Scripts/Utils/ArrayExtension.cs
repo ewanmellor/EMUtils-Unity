@@ -30,5 +30,29 @@ namespace EMUtils.Utils
             Array.Copy(arr, result, n);
             return result;
         }
+
+
+        public static byte[] FromStringBase64url(string s)
+        {
+            var b = s.Replace("-", "+").Replace("_", "/");
+            switch (b.Length % 4)
+            {
+                case 3:
+                    b += "=";
+                    break;
+                case 2:
+                    b += "==";
+                    break;
+                case 1:
+                    b += "===";
+                    break;
+            }
+            return Convert.FromBase64String(b);
+        }
+
+        public static string ToStringBase64url(this byte[] arr)
+        {
+            return Convert.ToBase64String(arr).Replace("+", "-").Replace("/", "_").Replace("=", "");
+        }
     }
 }
