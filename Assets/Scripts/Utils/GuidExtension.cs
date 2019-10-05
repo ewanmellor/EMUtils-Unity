@@ -23,6 +23,11 @@ namespace EMUtils.Utils
             return guid.ToByteArrayCorrectedOrder().ToStringBase64url();
         }
 
+        public static string ToStringTiny(this Guid guid)
+        {
+            return guid.ToStringBase64url().Substring(0, 4);
+        }
+
         /// <summary>
         /// Per the Guid.ToByteArray docs, the byte array used by
         /// System.Guid is mixed up, compared with the written
