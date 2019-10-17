@@ -37,6 +37,16 @@ namespace EMUtils.UnityUtils
                     m = k;
                 }
             }
+
+            if (f(minX) < f(k))
+            {
+                k = minX;
+            }
+            if (f(maxX) < f(k))
+            {
+                k = maxX;
+            }
+
             return k;
         }
 
